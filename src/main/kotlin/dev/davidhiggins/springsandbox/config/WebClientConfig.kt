@@ -1,6 +1,5 @@
 package dev.davidhiggins.springsandbox.config
 
-import dev.davidhiggins.springsandbox.customer.ContactDetails
 import io.netty.channel.ChannelOption
 import io.netty.handler.timeout.ReadTimeoutHandler
 import io.netty.handler.timeout.WriteTimeoutHandler
@@ -79,7 +78,7 @@ private object LogFilter {
 
     fun logResponse(log: Logger): ExchangeFilterFunction = ExchangeFilterFunction.ofResponseProcessor { clientResponse ->
         log.debug("{}", clientResponse.statusCode())
-        Mono.just(clientResponse);
+        Mono.just(clientResponse)
     }
 
     private fun getRedactedHeaders(headers: HttpHeaders) =
