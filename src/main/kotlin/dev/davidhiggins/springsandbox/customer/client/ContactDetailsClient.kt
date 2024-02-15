@@ -1,6 +1,7 @@
-package dev.davidhiggins.springsandbox.customer
+package dev.davidhiggins.springsandbox.customer.client
 
-import com.fasterxml.jackson.annotation.JsonProperty
+import com.fasterxml.jackson.annotation.JsonAlias
+import dev.davidhiggins.springsandbox.ResourceAccessRetryable
 import dev.davidhiggins.springsandbox.config.baseWebClientBuilder
 import dev.davidhiggins.springsandbox.config.getOrNull
 import org.slf4j.Logger
@@ -18,6 +19,7 @@ class ContactDetailsClient(
         .baseUrl(baseUrl)
         .build()
 
+    @ResourceAccessRetryable
     fun getContactDetails(id: Int): ContactDetails? = webClient.getOrNull<ContactDetails>("/$id", log)
 
 }
@@ -49,7 +51,7 @@ data class ContactDetails(
 data class Address(
     val street: String?,
     val city: String?,
-    @JsonProperty("zipcode")
+    @JsonAlias("zipcode")
     val postcode: String?
 )
 

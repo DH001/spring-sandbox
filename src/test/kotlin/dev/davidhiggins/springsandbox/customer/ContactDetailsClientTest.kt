@@ -1,5 +1,8 @@
 package dev.davidhiggins.springsandbox.customer
 
+import dev.davidhiggins.springsandbox.customer.client.Address
+import dev.davidhiggins.springsandbox.customer.client.ContactDetails
+import dev.davidhiggins.springsandbox.customer.client.ContactDetailsClient
 import okhttp3.mockwebserver.MockResponse
 import okhttp3.mockwebserver.MockWebServer
 import org.assertj.core.api.Assertions.assertThat

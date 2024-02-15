@@ -1,7 +1,6 @@
 package dev.davidhiggins.springsandbox.customer
 
-import dev.davidhiggins.springsandbox.customer.service.Customer
-import dev.davidhiggins.springsandbox.customer.service.CustomerService
+import dev.davidhiggins.springsandbox.customer.client.ContactDetails
 import jakarta.validation.constraints.NotBlank
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated

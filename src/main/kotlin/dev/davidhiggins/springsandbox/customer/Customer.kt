@@ -1,4 +1,4 @@
-package dev.davidhiggins.springsandbox.customer.service
+package dev.davidhiggins.springsandbox.customer
 
 import org.springframework.data.annotation.Id
 

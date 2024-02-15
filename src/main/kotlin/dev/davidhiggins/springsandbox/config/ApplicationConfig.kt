@@ -9,24 +9,25 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
-import dev.davidhiggins.springsandbox.Application
-import org.jsoup.Jsoup
-import org.jsoup.nodes.Document
-import org.jsoup.safety.Safelist
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import java.nio.charset.StandardCharsets
+import org.springframework.context.annotation.Primary
+import org.springframework.web.servlet.config.annotation.EnableWebMvc
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 
 @Configuration
-class ApplicationConfig {
+@EnableWebMvc
+class ApplicationConfig: WebMvcConfigurer {
 
     @Bean
+    @Primary
     fun objectMapper(): ObjectMapper {
         val customModule = SimpleModule() // Add deserializer if needed
-
         return ObjectMapper()
             .registerModules(
-                JavaTimeModule(), ParameterNamesModule(), KotlinModule.Builder().configure(KotlinFeature.StrictNullChecks, true).build()
+                JavaTimeModule(),
+                ParameterNamesModule(),
+                KotlinModule.Builder().configure(KotlinFeature.StrictNullChecks, true).build()
             )
             .configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, true)
             .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
@@ -34,19 +35,8 @@ class ApplicationConfig {
             .registerModules(customModule)
     }
 
-
 }
 
-typealias ResourceName = String
-
-object Extensions {
-
-    fun String.sanitize(safelist: Safelist = Safelist.relaxed()) =
-        Jsoup.clean(this, "", safelist, Document.OutputSettings().prettyPrint(false) )
 
 
-    fun ResourceName.readAsResource(): String? =
-        Application::class.java.getResource(this)
-            ?.readText(StandardCharsets.UTF_8)
 
-}
