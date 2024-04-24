@@ -2,6 +2,7 @@ package dev.davidhiggins.springsandbox
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
+import org.springframework.cache.annotation.EnableCaching
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @SpringBootApplication
 @EnableRetry
 @EnableAsync
+@EnableCaching
 class Application
 
 fun main(args: Array<String>) {

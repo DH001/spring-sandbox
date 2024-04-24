@@ -9,6 +9,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule
 import com.fasterxml.jackson.module.kotlin.KotlinFeature
 import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
@@ -34,6 +35,14 @@ class ApplicationConfig: WebMvcConfigurer {
             .configure(JsonGenerator.Feature.WRITE_BIGDECIMAL_AS_PLAIN, true)
             .registerModules(customModule)
     }
+
+    @Bean
+    fun concurrentMapCacheManager(): ConcurrentMapCacheManager =
+        ConcurrentMapCacheManager()
+            .apply {
+                isStoreByValue = true // Serialize object in/out cache
+                isAllowNullValues = true
+            }
 
 }
 

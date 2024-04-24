@@ -25,11 +25,22 @@ private val httpClient = HttpClient.create()
             .addHandlerLast(WriteTimeoutHandler(5000, TimeUnit.MILLISECONDS))
     }
 
+private fun errorFunction(log: Logger) = ExchangeFilterFunction.ofResponseProcessor {
+    when {
+        it.statusCode().is5xxServerError -> it.bodyToMono(String::class.java).flatMap { body ->
+            log.info(" ${it.statusCode()} error: $body")
+            Mono.error(Exception(body))
+        }
+
+        else -> Mono.just(it)
+    }
+}
 
 fun baseWebClientBuilder(log: Logger) = WebClient.builder()
     .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
     .clientConnector(ReactorClientHttpConnector(httpClient))
     .filters {
+        it.add(errorFunction(log))
         it.add(LogFilter.logRequest(log))
         it.add(LogFilter.logResponse(log))
     }
@@ -54,7 +65,7 @@ inline fun <reified T> WebClient.getOrNull(url: String, log: Logger): T? =
 
 
 
-private object LogFilter {
+object LogFilter {
     fun logRequest(log: Logger): ExchangeFilterFunction = ExchangeFilterFunction.ofRequestProcessor { clientRequest ->
         if (log.isDebugEnabled) {
             val msg = buildString {
@@ -89,4 +100,5 @@ private object LogFilter {
                 it.value
             }
         }
+
 }
