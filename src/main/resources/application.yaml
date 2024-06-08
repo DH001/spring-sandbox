@@ -5,7 +5,6 @@ spring:
     password: secret
   sql.init.mode: always
 
-
 logging.level.org.spring.framework.jdbc: debug
 
 contact.service.url: https://jsonplaceholder.typicode.com/users
@@ -14,6 +13,9 @@ rabbitmq:
   queue.name: customer
   exchange.name: customer_exchange
   routing.key: customer_routing_key
+  #host:
+  #username:
+  #password:
 
 resilience4j:
   ratelimiter:
@@ -22,4 +24,7 @@ resilience4j:
         limitForPeriod: 2
         limitRefreshPeriod: 5s
         timeoutDuration: 30s
+
+
+
 

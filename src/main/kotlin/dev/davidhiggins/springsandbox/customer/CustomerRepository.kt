@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository
 const val CUSTOMER_CACHE_KEY = "customers"
 
 @Repository
-interface CustomerRepository: ListCrudRepository<Customer, String> {
+interface CustomerRepository: ListCrudRepository<Customer, Int> {
 
     @Cacheable(CUSTOMER_CACHE_KEY)
     fun findByName(name: String): Customer

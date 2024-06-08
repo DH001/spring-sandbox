@@ -14,13 +14,13 @@ class CustomerController(private val customerService: CustomerService) {
 
     @GetMapping("/customer/{id}")
     fun getById(
-        @PathVariable("id") id: String
+        @PathVariable("id") id: Int
     ): Customer = customerService.findById(id)
         ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Customer Not Found")
 
     @GetMapping("/customer/{id}/contact")
     fun getContactDetails(
-        @PathVariable("id") id: String
+        @PathVariable("id") id: Int
     ): ContactDetails = customerService.getCustomerContactDetails(id)
         ?: throw ResponseStatusException(HttpStatus.NOT_FOUND, "Customer Not Found")
 
@@ -35,7 +35,7 @@ class CustomerController(private val customerService: CustomerService) {
 
     @DeleteMapping("/customer/{id}")
     @ResponseStatus(value = HttpStatus.NO_CONTENT)
-    fun delete(@PathVariable("id") id: String) = customerService.delete(id)
+    fun delete(@PathVariable("id") id: Int) = customerService.delete(id)
 
 }
 

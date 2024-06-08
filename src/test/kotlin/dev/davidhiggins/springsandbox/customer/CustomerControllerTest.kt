@@ -41,7 +41,7 @@ class CustomerControllerTest {
 
     @Test
     fun `Get a customer by their id`() {
-        every { customerRepository.findById("1") } returns Optional.of(Customer(1, "test"))
+        every { customerRepository.findById(1) } returns Optional.of(Customer(1, "test"))
 
         val result = mockMvc.perform(
             get("/api/customer/1")
@@ -56,7 +56,7 @@ class CustomerControllerTest {
 
     @Test
     fun `Get a customer but they are not found`() {
-        every { customerRepository.findById("1") } returns Optional.empty()
+        every { customerRepository.findById(1) } returns Optional.empty()
 
         val result = mockMvc.perform(
             get("/api/customer/1")
@@ -68,7 +68,7 @@ class CustomerControllerTest {
 
     @Test
     fun `Fetch contact details for customer from a web service`() {
-        every { customerRepository.findById("1") } returns Optional.of(Customer(1, "test"))
+        every { customerRepository.findById(1) } returns Optional.of(Customer(1, "test"))
         every { contactDetailsClient.getContactDetails(1) } returns ContactDetails(
             id = 1,
             email = "test@test.com",
@@ -137,6 +137,6 @@ class CustomerControllerTest {
         ).andDo(MockMvcResultHandlers.print())
 
         result.andExpect(status().`is`(204))
-        verify { customerRepository.deleteById("1") }
+        verify { customerRepository.deleteById(1) }
     }
 }

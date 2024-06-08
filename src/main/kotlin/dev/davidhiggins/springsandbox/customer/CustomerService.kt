@@ -20,7 +20,7 @@ class CustomerService(
         customerRepository.findAll().map { it }.toList()
 
     @ResourceAccessRetryable
-    fun findById(id: String): Customer? =
+    fun findById(id: Int): Customer? =
         customerRepository.findById(id)
             .getOrNull()
 
@@ -36,11 +36,11 @@ class CustomerService(
         return customer
     }
 
-    fun delete(id: String) =
+    fun delete(id: Int) =
         customerRepository.deleteById(id)
             .also { log.info("Deleted user with id: {}", id) }
 
-    fun getCustomerContactDetails(id: String) =
+    fun getCustomerContactDetails(id: Int) =
         customerRepository.findById(id)
             .getOrNull()
             ?.let {  contactDetailsClient.getContactDetails(it.id!!) }
